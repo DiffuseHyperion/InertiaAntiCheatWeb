@@ -1,12 +1,56 @@
 import {useEffect, useState} from "react";
 import {Algorithm} from "./Algorithm";
-import {md5, sha1, sha256} from "hash-wasm";
 import Mod from "./Mod";
 import {copyText} from "./index";
+import { createMD5, createSHA1, createSHA256 } from "hash-wasm"
+import {IHasher} from "hash-wasm/dist/lib/WASMInterface";
 
 interface Props {
     mod: Mod
 }
+
+const chunkSize = 64 * 1024 * 1024;
+
+function hashChunk(chunk: Blob, hasher: IHasher, fileReader: FileReader): Promise<void> {
+    return new Promise((resolve) => {
+        fileReader.onload = (e) => {
+            const view = new Uint8Array(e.target!.result as ArrayBuffer);
+            hasher.update(view);
+            resolve();
+        };
+
+        fileReader.readAsArrayBuffer(chunk);
+    });
+}
+
+async function readFile(file: File, algorithm: Algorithm) {
+    let hasher: IHasher
+    switch (algorithm) {
+        case Algorithm.MD5:
+            hasher = await createMD5();
+            break
+        case Algorithm.SHA1:
+            hasher = await createSHA1();
+            break
+        case Algorithm.SHA256:
+            hasher = await createSHA256();
+            break
+    }
+    const fileReader: FileReader = new FileReader();
+    const chunkNumber = Math.floor(file.size / chunkSize);
+
+    for (let i = 0; i <= chunkNumber; i++) {
+        let chunk: Blob = file.slice(
+            chunkSize * i,
+            Math.min(chunkSize * (i + 1), file.size)
+        );
+        await hashChunk(chunk, hasher, fileReader);
+    }
+
+    const hash = hasher.digest();
+    return Promise.resolve(hash);
+}
+
 
 export default function ModComponent(props: Props) {
     const [checksum, setChecksum] = useState<string>()
@@ -17,21 +61,7 @@ export default function ModComponent(props: Props) {
     }
 
     useEffect(() => {
-        let fileReader: FileReader = new FileReader()
-        fileReader.onload = () => {
-            let data= fileReader.result!
-
-            if (!(data instanceof ArrayBuffer)) {
-                if (props.mod.algorithm === Algorithm.MD5) {
-                    md5(data).then((result) => updateChecksum(result))
-                } else if (props.mod.algorithm === Algorithm.SHA1) {
-                    sha1(data).then((result) => updateChecksum(result))
-                } else if (props.mod.algorithm === Algorithm.SHA256) {
-                    sha256(data).then((result) => updateChecksum(result))
-                }
-            }
-        }
-        fileReader.readAsBinaryString(props.mod.file)
+        readFile(props.mod.file, props.mod.algorithm).then((result) => updateChecksum(result))
     }, [props.mod.file, props.mod.algorithm]);
 
     return (
