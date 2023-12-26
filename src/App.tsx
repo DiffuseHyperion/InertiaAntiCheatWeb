@@ -31,7 +31,8 @@ function App() {
         checksums.push(mod.checksum)
       }
     })
-     md5(checksums.join()).then((result) => {
+    let sortedChecksums: string[] = checksums.sort()
+     md5(sortedChecksums.join("|")).then((result) => {
        setCombinedChecksum(result)
      })
   }
