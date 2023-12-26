@@ -37,9 +37,9 @@ function App() {
   }
 
   return (
-      <main className="bg-black text-white min-h-screen grid grid-cols-5 grid-rows-1 p-12">
-        <div className="col-span-1 flex flex-col pr-4 justify-between">
-          <div>
+      <main className="bg-black text-white min-h-screen flex flex-col xl:grid xl:grid-cols-5 xl:grid-rows-1 p-12">
+        <div className="xl:col-span-1 flex flex-col pb-4 xl:pr-4 xl:pb-0 items-center justify-start">
+          <div className="w-full">
             <h1 className="text-4xl font-bold pb-3">Instructions</h1>
             <h2 className="text-2xl">If you are using the <span className="underline">individual</span> method:
             </h2>
@@ -55,27 +55,25 @@ function App() {
               <li>Select algorithm that you are using.</li>
               <li>Press submit!</li>
             </ul>
-            <p className="mt-7 italic">ui not too responsive yet, will improve it later</p>
           </div>
-          <div>
-            <div className="w-full flex flex-col space-y-4">
-              <input className="w-fit" type="file" id="files" name="files"
-                     onChange={() => updateMods()} multiple/>
-              <select className="text-black rounded-2xl h-10 pl-4 pr-10" id="algorithm" name="algorithm"
-                      onChange={() => updateMods()}>
-                <option value="0">MD5</option>
-                <option value="1">SHA1</option>
-                <option value="2">SHA256</option>
-              </select>
-              <input onClick={() => calculateGroupChecksum()} className="bg-white text-black rounded-2xl h-10 cursor-pointer" type="submit"/>
-            </div>
+          <div className="w-full flex flex-col space-y-4 mt-8">
+            <input className="w-fit" type="file" id="files" name="files"
+                   onChange={() => updateMods()} multiple/>
+            <select className="text-black rounded-2xl h-10 pl-4 pr-10" id="algorithm" name="algorithm"
+                    onChange={() => updateMods()}>
+              <option value="0">MD5</option>
+              <option value="1">SHA1</option>
+              <option value="2">SHA256</option>
+            </select>
+            <input onClick={() => calculateGroupChecksum()}
+                   className="bg-white text-black rounded-2xl h-10 cursor-pointer" type="submit"/>
           </div>
         </div>
-        <div className="col-span-4 border-l-4 border-white pl-4 flex flex-col space-y-5">
+        <div className="xl:col-span-4 border-t-4 xl:border-l-4 xl:border-t-0 border-white pt-4 xl:pl-4 xl:pt-0 flex flex-col space-y-5">
           <div
               className="w-full h-24 border-white border-4 rounded-3xl p-3 pl-8 pr-8 flex flex-row items-center space-x-3">
-            <h2 className="text-2xl bold">Combined checksum:</h2>
-            <p onClick={() => copyText(combinedChecksum)} className="underline cursor-pointer"
+            <h2 className="text-xl sm:text-2xl bold mr-4">Combined<br/>checksum:</h2>
+            <p onClick={() => copyText(combinedChecksum)} className="underline cursor-pointer truncate"
                title="Click me to copy!">{combinedChecksum ? combinedChecksum : "Waiting..."}</p>
           </div>
           {mods.map((mod, index) => (

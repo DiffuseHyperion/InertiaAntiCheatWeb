@@ -65,14 +65,14 @@ export default function ModComponent(props: Props) {
     }, [props.mod.file, props.mod.algorithm]);
 
     return (
-        <div className="w-full h-24 bg-white text-black rounded-3xl p-3 pl-8 pr-8 flex flex-row items-center justify-between">
-            <div className="flex flex-row space-x-3 items-center">
-                <h1 className="text-2xl font-bold">{props.mod.file.name}</h1>
-                <h2 className="text-xl">Checksum:</h2>
-                <p onClick={() => copyText(checksum)} className="underline cursor-pointer" title="Click me to copy!">{checksum ? checksum : "Calculating..."}</p>
+        <div className="w-full h-24 bg-white text-black rounded-3xl p-3 px-3 md:px-8 grid grid-cols-6 grid-rows-1">
+            <div className="col-span-4 md:col-span-5 w-full flex flex-row space-x-3 justify-start items-center">
+                <h1 className="text-lg md:text-2xl font-bold">{props.mod.file.name}</h1>
+                <h2 className="hidden lg:block lg:text-xl">Checksum:</h2>
+                <p onClick={() => copyText(checksum)} className="underline cursor-pointer truncate" title="Click me to copy!">{checksum ? checksum : "Calculating..."}</p>
             </div>
-            <div className="flex flex-row space-x-3 justify-center items-center">
-            <p>Soft-whitelist?</p>
+            <div className="col-span-2 md:col-span-1 w-full flex flex-row space-x-3 justify-end items-center">
+                <p className="text-center">Soft-whitelist?</p>
                 <input className={"p-3"} onChange={() => props.mod.softWhitelist = !props.mod.softWhitelist} type="checkbox"/>
             </div>
         </div>
