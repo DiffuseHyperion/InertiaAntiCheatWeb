@@ -57,8 +57,9 @@ function App() {
             </ul>
           </div>
           <div className="w-full flex flex-col space-y-4 mt-8">
-            <input className="w-fit" type="file" id="files" name="files"
-                   onChange={() => updateMods()} multiple/>
+            <input className="w-fit" type="file" multiple={true} accept={"*,.jar"}
+                   id="files" name="files"
+                   onChange={() => updateMods()}/>
             <select className="text-black rounded-2xl h-10 pl-4 pr-10" id="algorithm" name="algorithm"
                     onChange={() => updateMods()}>
               <option value="0">MD5</option>
