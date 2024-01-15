@@ -1,19 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ModComponent from "./ModComponent";
 import {Algorithm} from "./Algorithm";
 import Mod from "./Mod";
 import {md5} from "hash-wasm";
 import {copyText} from "./index";
 
-
 function App() {
   const [mods, setMods] = useState<Mod[]>([])
   const [combinedChecksum, setCombinedChecksum] = useState<string>()
-
   function updateMods() {
     let res: Mod[] = []
     let rawFiles: File[] = Array.from((document.getElementById("files") as HTMLInputElement).files!)
     let algorithm: Algorithm = parseInt((document.getElementById("algorithm") as HTMLSelectElement).value!) as Algorithm
+
     rawFiles.forEach((file) => {
       res.push(new Mod(file, algorithm))
     })
@@ -22,15 +21,20 @@ function App() {
 
   function calculateGroupChecksum() {
     let checksums: string[] = []
+    let processing: boolean = false
     mods.forEach((mod) => {
-      if (!mod.softWhitelist) {
+      if (!mod.softWhitelist && !processing) {
         if (mod.checksum === undefined) {
-          alert(mod.file.name + " is still processing! Try again later.")
-          return
+          processing = true;
+        } else {
+          checksums.push(mod.checksum)
         }
-        checksums.push(mod.checksum)
       }
     })
+    if (processing) {
+      alert("Not all mods have finished processing! Try again later.")
+      return
+    }
     let sortedChecksums: string[] = checksums.sort()
      md5(sortedChecksums.join("|")).then((result) => {
        setCombinedChecksum(result)
