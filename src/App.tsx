@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ModComponent from "./ModComponent";
 import {Algorithm} from "./Algorithm";
 import Mod from "./Mod";
@@ -14,7 +14,11 @@ function App() {
     let algorithm: Algorithm = parseInt((document.getElementById("algorithm") as HTMLSelectElement).value!) as Algorithm
 
     rawFiles.forEach((file) => {
-      res.push(new Mod(file, algorithm))
+      if (file.type !== "application/java-archive") {
+        alert(file.name + " is not a .jar file!")
+      } else {
+        res.push(new Mod(file, algorithm))
+      }
     })
     setMods(res)
   }
@@ -62,9 +66,12 @@ function App() {
             </ul>
           </div>
           <div className="w-full flex flex-col space-y-4 mt-8">
-            <input className="w-fit" type="file" multiple={true} accept={"*,.jar"}
-                   id="files" name="files"
-                   onChange={() => updateMods()}/>
+            <div className={"h-20 w-full relative bg-white rounded-2xl flex items-center justify-center"}>
+              <p className={"absolute text-black text-center"}>Click to select mods / Drag mods here!</p>
+              <input className="w-full h-full opacity-0 z-10" type="file" multiple={true} accept={"*,.jar"}
+                     id="files" name="files"
+                     onChange={() => updateMods()}/>
+            </div>
             <select className="text-black rounded-2xl h-10 pl-4 pr-10" id="algorithm" name="algorithm"
                     onChange={() => updateMods()}>
               <option value="0">MD5</option>
