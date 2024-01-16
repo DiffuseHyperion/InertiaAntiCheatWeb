@@ -14,9 +14,7 @@ function App() {
     let algorithm: Algorithm = parseInt((document.getElementById("algorithm") as HTMLSelectElement).value!) as Algorithm
 
     rawFiles.forEach((file) => {
-      if (file.type !== "application/java-archive") {
-        alert(file.name + " is not a .jar file!")
-      } else {
+      if (file.type === "application/java-archive") {
         res.push(new Mod(file, algorithm))
       }
     })
@@ -41,6 +39,7 @@ function App() {
     }
     let sortedChecksums: string[] = checksums.sort()
      md5(sortedChecksums.join("|")).then((result) => {
+       console.log("Combined checksum plaintext: " + sortedChecksums.join("|"))
        setCombinedChecksum(result)
      })
   }

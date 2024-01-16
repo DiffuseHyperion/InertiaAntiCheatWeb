@@ -36,7 +36,7 @@ export default function ModComponent(props: Props) {
                 })
                 break;
         }
-    })
+    }, [props.mod, props.mod.algorithm])
 
     return (
         <div className="w-full h-24 bg-white text-black rounded-3xl p-3 px-3 md:px-8 grid grid-cols-6 grid-rows-1">
