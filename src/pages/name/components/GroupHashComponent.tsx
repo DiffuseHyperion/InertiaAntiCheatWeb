@@ -7,9 +7,8 @@ export default function GroupHashComponent({mods}: {mods: Mod[]}) {
     const [combinedHash, setcombinedHash] = useState<string>()
 
     useEffect(() => {
-        (async () => {
-            setcombinedHash(await md5(mods.map((mod) => mod.file.name).sort().join("|")));
-        })();
+        let input: string = mods.filter((mod) => !mod.softWhitelist).map((mod) => mod.file.name).sort().join("|")
+        md5(input).then((result) => setcombinedHash(result))
     }, [mods]);
 
     return (

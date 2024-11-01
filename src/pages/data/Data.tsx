@@ -35,7 +35,7 @@ export default function Data() {
               <ul className="list-disc ml-5 pb-2">
                 <li>Select all mods you want blacklisted or whitelisted.</li>
                 <li>Select algorithm that you are using.</li>
-                <li>Copy the checksum into the respective lists.</li>
+                <li>Copy the hash into the respective lists.</li>
               </ul>
               <h2 className="text-2xl">If you are using the <span className="underline">group</span> validation
                 method:
@@ -44,6 +44,7 @@ export default function Data() {
                 <li>Select all mods that are part of your modpack, and mods you want to soft-whitelist.</li>
                 <li>Select mods that should be soft-whitelisted.</li>
                 <li>Select algorithm that you are using.</li>
+                <li>Copy the group hash into the config file.</li>
               </ul>
             </div>
             <div className="w-full flex flex-col space-y-4 mt-8">
