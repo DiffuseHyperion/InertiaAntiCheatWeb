@@ -6,7 +6,7 @@ import {type ChangeEvent} from "react"
 export default function GenericCalculator({instructions, updateModFiles, additionalSelects, children}: {
     instructions: React.ReactNode
     updateModFiles: (event: ChangeEvent<HTMLInputElement>) => void
-    additionalSelects: React.ReactNode | undefined
+    additionalSelects?: React.ReactNode
     children: React.ReactNode
 }) {
     return (
