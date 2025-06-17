@@ -35,6 +35,7 @@ export default function IdCalculator() {
                     <li>Select all mods that are part of your modpack, and mods you want to soft-whitelist.</li>
                     <li>Select mods that should be soft-whitelisted.</li>
                     <li>Copy the group hash into the config file.</li>
+                    <li>Copy all soft-whitelisted mods into the config file.</li>
                 </ul>
             </>
         )

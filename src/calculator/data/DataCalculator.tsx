@@ -58,6 +58,7 @@ export default function DataCalculator() {
                     <li>Select mods that should be soft-whitelisted.</li>
                     <li>Select algorithm that you are using.</li>
                     <li>Copy the group hash into the config file.</li>
+                    <li>Copy all soft-whitelisted mods into the config file.</li>
                 </ul>
             </>
         )
