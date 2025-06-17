@@ -39,7 +39,6 @@ export default function DataCalculator() {
     function DataCalculatorInstructions() {
         return (
             <>
-                <h1 className="text-4xl font-bold pb-3">Instructions</h1>
                 <h2 className="text-2xl">If you are using the <span
                     className="underline">individual</span> validation
                     method:
